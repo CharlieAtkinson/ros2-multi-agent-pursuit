@@ -15,6 +15,21 @@ An asynchronous multi-robot pursuit-evasion architecture engineered in **ROS 2 H
 
 ---
 
+## 📑 Table of Contents
+- [Academic Context & Task Progression](#-academic-context--task-progression)
+- [Engineering Highlights](#-engineering-highlights)
+- [Architecture & Control Logic](#-architecture--control-logic)
+- [Mathematical Methodology](#-mathematical-methodology)
+- [Empirical Analysis & Failure Mode Mitigation](#-empirical-analysis--failure-mode-mitigation)
+- [Quickstart Guide](#-quickstart-guide)
+- [Verification & Automated Tests](#-verification--automated-tests)
+- [Technology Stack](#-technology-stack)
+- [Contributing & Issue Reporting](#-contributing--issue-reporting)
+- [License](#-license)
+- [Author & Acknowledgements](#-author--acknowledgements)
+
+---
+
 ## 🎓 Academic Context & Task Progression
 
 This project was developed for the **Robotic Systems and Simulation** module as part of the *BSc Robotics and Artificial Intelligence* programme at the University of Hull, achieving a **First-Class grade (1st)**. 
@@ -30,7 +45,7 @@ The brief required architecting an autonomous *Explore, Search, and Capture* sim
 ## 🎯 Engineering Highlights
 
 * **Decentralised Asynchronous Architecture:** Zero centralised orchestrator. Every robot operates as an isolated, event-driven ROS 2 Node executing independent sense-plan-act cycles at **10 Hz**.
-* **Predictive Lead-Pursuit Interception:** Eliminates sub-optimal tail-chasing dynamics by estimating target trajectories $0.4\,\text{s}$ into the future, enabling pursuers to close capture distance over $35\%$ faster.
+* **Predictive Lead-Pursuit Interception:** Eliminates sub-optimal tail-chasing dynamics by estimating target trajectories $0.4\,\text{s}$ into the future, enabling pursuers to close capture distance over **35%** faster.
 * **Non-Stacking Swarm Repulsion:** Solves physical multi-agent kinematic overlap via a virtual potential field model that repels teammate pursuers within a $1.0\,\text{unit}$ radius.
 * **Lookahead Collision Avoidance:** Replaces reactive wall collisions with a $2.0\,\text{unit}$ forward feeler, preventing terminal trajectory limit cycles along perimeter boundaries.
 * **Modular Task Progression:** Scaled cleanly across decoupled packages (`task1`, `task2`, `task3`) with custom ROS launch files.
@@ -136,10 +151,12 @@ ros2 launch task3 task3_launch.py
   ```bash
   ros2 launch task1 task1_launch.py
   ```
+
 * **Single Robot Moving Target (Task 2):**
   ```bash
   ros2 launch task2 task2_launch.py
   ```
+
 * **Multi-Robot Swarm Interception (Task 3):**
   ```bash
   ros2 launch task3 task3_launch.py
@@ -147,7 +164,48 @@ ros2 launch task3 task3_launch.py
 
 ---
 
+## 🧪 Verification & Automated Tests
+
+To ensure mathematical precision across angle normalisation and vector trajectory calculations, standard unit tests can be executed via `pytest`:
+
+```bash
+# Run automated kinematic test suite
+pytest tests/
+```
+
+Individual ROS package linting and style compliance checks:
+```bash
+# Execute standard ROS 2 linters across packages
+colcon test --packages-select task1 task2 task3
+colcon test-result --all
+```
+
+---
+
 ## 🛠️ Technology Stack
 * **Robotics Middleware:** ROS 2 Humble Hawksbill (`rclpy`, `geometry_msgs`, `turtlesim`)
 * **Build System:** `colcon`, `ament_python`
-* **Programming Language:** Python 3.10+
+* **Programming Languages & Testing:** Python 3.10+, PyTest, NumPy
+
+---
+
+## 🤝 Contributing & Issue Reporting
+
+Contributions and suggestions are welcome:
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feat/lead-pursuit-optimisation`).
+3. Commit your changes (`git commit -m 'feat: improve evasion vector weighting'`).
+4. Push to the branch (`git push origin feat/lead-pursuit-optimisation`).
+5. Open a Pull Request detailing changes and simulator verification logs.
+
+---
+
+## 📜 License
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for complete details.
+
+---
+
+## 👨‍💻 Author & Acknowledgements
+* **Lead Engineer:** Charlie Atkinson ([@CharlieAtkinson](https://github.com/CharlieAtkinson))
+* **Academic Institution:** Department of Computer Science & Technology, University of Hull
+* **Simulation Framework:** Built on top of the open-source `ros-turtlesim` multi-robot simulator environment.

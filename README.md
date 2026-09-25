@@ -3,6 +3,7 @@
 [![ROS 2](https://img.shields.io/badge/ROS_2-Humble_Hawksbill-22314E.svg?logo=ros&logoColor=white)](https://docs.ros.org/en/humble/)
 [![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04_LTS-E95420.svg?logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/22.04/)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![Grade: First Class](https://img.shields.io/badge/Grade-First_Class_(1st)-success.svg)](https://github.com/CharlieAtkinson/ros2-multi-agent-pursuit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An asynchronous multi-robot pursuit-evasion architecture engineered in **ROS 2 Humble**. The system deploys a decentralised swarm of autonomous pursuers using predictive lead-interception and mutual repulsion vectors to capture an agile, boundary-aware evader operating under continuous threat ranking.
@@ -14,13 +15,27 @@ An asynchronous multi-robot pursuit-evasion architecture engineered in **ROS 2 H
 
 ---
 
+## 🎓 Academic Context & Task Progression
+
+This project was developed for the **Robotic Systems and Simulation** module as part of the *BSc Robotics and Artificial Intelligence* programme at the University of Hull, achieving a **First-Class grade (1st)**. 
+
+The brief required architecting an autonomous *Explore, Search, and Capture* simulation from foundational control theory through to multi-agent swarm tactics across three progressive milestones:
+
+- **Task 1 — Single Robot Static Target:** Established the baseline sense-plan-act loop. An independent pursuer node tracks a stationary target broadcasting coordinates via custom topics, calculating Euclidean distance and normalised heading error via $atan2$ to achieve capture.
+- **Task 2 — Single Robot Moving Target:** Introduced dynamic evasion and spatial boundary management. The evader actively tracks pursuer coordinates to steer $180^\circ$ away, integrated with map perimeter detection to break limit-cycle wall traps within a 60-second operational window.
+- **Task 4 — Multi-Robot Moving Target (Swarm Interception):** Scaled the simulation to four decentralised agents (3 predators vs 1 agile prey). Pursuers deploy predictive lead interception and mutual inter-agent repulsion vectors to flank the prey without stacking, while the evader applies dynamic threat ranking to escape the closest threat.
+
+*(Note: Task 3 was excluded by design to focus engineering depth on multi-agent swarm dynamics).*
+
+---
+
 ## 🎯 Engineering Highlights
 
 * **Decentralised Asynchronous Architecture:** Zero centralised orchestrator. Every robot operates as an isolated, event-driven ROS 2 Node executing independent sense-plan-act cycles at **10 Hz**.
 * **Predictive Lead-Pursuit Interception:** Eliminates sub-optimal tail-chasing dynamics by estimating target trajectories $0.4\,\text{s}$ into the future, enabling pursuers to close capture distance over $35\%$ faster.
 * **Non-Stacking Swarm Repulsion:** Solves physical multi-agent kinematic overlap via a virtual potential field model that repels teammate pursuers within a $1.0\,\text{unit}$ radius.
 * **Lookahead Collision Avoidance:** Replaces reactive wall collisions with a $2.0\,\text{unit}$ forward feeler, preventing terminal trajectory limit cycles along perimeter boundaries.
-* **Modular Task Progression:** Packages escalate from baseline single-agent static pursuit (`task1`), to boundary-constrained moving target evasion (`task2`), through to multi-agent flocking interception (`task4`).
+* **Modular Task Progression:** Scaled cleanly across decoupled packages (`task1`, `task2`, `task4`) with custom ROS launch files.
 
 ---
 
@@ -119,15 +134,15 @@ ros2 launch task4 task4_launch.py
 
 ### Running Individual Scenarios
 
-* **Single Robot Static Target:**
+* **Single Robot Static Target (Task 1):**
   ```bash
   ros2 launch task1 task1_launch.py
   ```
-* **Single Robot Moving Target:**
+* **Single Robot Moving Target (Task 2):**
   ```bash
   ros2 launch task2 task2_launch.py
   ```
-* **Multi-Robot Swarm Interception:**
+* **Multi-Robot Swarm Interception (Task 4):**
   ```bash
   ros2 launch task4 task4_launch.py
   ```
